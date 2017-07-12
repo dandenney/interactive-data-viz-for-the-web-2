@@ -73,4 +73,110 @@
   }
 
   // Your custom JavaScript goes here
+
+  // Chapter 5 Using Your Data
+  function usingYourData() {
+    var dataset = [ 5, 10, 15, 20, 25 ];
+
+    d3.select("body").selectAll("p")
+      .data(dataset)
+      .enter()
+      .append("p")
+      .text( function(d) { 
+        return d 
+      });
+  }
+
+  // Chapter 5 Setting Styles
+  function settingStyles() {
+    var dataset = [ 5, 10, 15, 20, 25 ];
+
+    d3.select("body").selectAll("div")
+      .data(dataset)
+      .enter()
+      .append("div")
+      .attr("class", "bar-05")
+      .style('height', function(d) {
+        return (d * 5) + 'px';
+      });
+  }
+
+  function randomData() {
+    var dataset = [];                         //Initialize empty array
+    for (var i = 0; i < 25; i++) {            //Loop 25 times
+        var newNumber = Math.random() * 30;   //New random number (0-30)
+        dataset.push(newNumber);              //Add new number to array
+    }
+
+    d3.select("body").selectAll("div")
+      .data(dataset)
+      .enter()
+      .append("div")
+      .attr("class", "bar-05")
+      .style('height', function(d) {
+        return (d * 5) + 'px';
+      });
+  }
+
+  function dataDrivenShapes() {
+    const w = 500;
+    const h = 50;
+    const svg = d3.select('body')
+      .append('svg')
+      .attr('width', w)
+      .attr('height', h);
+    const dataset = [ 5, 10, 15, 20, 25 ];
+    
+    const circles = svg.selectAll("circle")
+      .data(dataset)
+      .enter()
+      .append("circle");
+
+    circles.attr("cx", function(d, i) {
+            return (i * 50) + 25;
+        })
+       .attr("cy", h/2)
+       .attr("r", function(d) {
+            return d;
+       });
+  }
+
+  function newBarChart() {
+    const w = 500;
+    const h = 200;
+    const p = 1;
+    const svg = d3.select('body')
+      .append('svg')
+      .attr('width', w)
+      .attr('height', h);
+    
+    const dataset = []; //Initialize empty array
+    for (var i = 0; i < 25; i++) { //Loop 25 times
+        var newNumber = Math.random() * 30; //New random number (0-30)
+        dataset.push(newNumber); //Add new number to array
+    }
+
+    svg.selectAll('rect')
+      .data(dataset)
+      .enter()
+      .append('rect')
+      .attr('x', function(d, i) {
+        return i * (w / dataset.length); 
+      })
+      .attr('y', function(d) {
+        return h - (d * 4);
+      })
+      .attr('width', (w / dataset.length - p))
+      .attr('height', function(d) {
+        return d * 4;
+      })
+      .attr('fill', 'teal');
+  }
+
+  // usingYourData();
+  // settingStyles();
+  // randomData();
+  // dataDrivenShapes();
+  newBarChart();
+
 })();
