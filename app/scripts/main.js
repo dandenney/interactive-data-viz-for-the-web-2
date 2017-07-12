@@ -177,6 +177,6 @@
   // settingStyles();
   // randomData();
   // dataDrivenShapes();
-  newBarChart();
+  // newBarChart();
 
 })();
