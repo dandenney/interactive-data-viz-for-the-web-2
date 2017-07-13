@@ -32,3 +32,15 @@ html, body {
   margin-right: 2px;
   width: 20px;
 }
+
+.line {
+  fill: none;
+  stroke: teal;
+  stroke-width: 0.5;
+}
+
+.dangerLine {
+  fill: none;
+  stroke: red;
+  stroke-width: 0.5;
+}

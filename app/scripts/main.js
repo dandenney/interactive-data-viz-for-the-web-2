@@ -470,12 +470,84 @@
       });
   }
 
+  function basicLineChart() {
+    const h = 300;
+    const w = 800;
+    const padding = 40;
+
+    let dataset, xScale, yScale, line, dangerLine;
+
+    const rowConverter = function(d) {
+      return {
+        date: new Date(+d.year, (+d.month - 1)),
+        average: parseFloat(d.average)
+      };
+    }
+
+    d3.csv('/datum/mauna_averages.csv', rowConverter, function(data) {
+      dataset = data;
+      xScale = d3.scaleTime()
+        .domain([
+          d3.min(dataset, function(d) {
+            return d.date;
+          }),
+          d3.max(dataset, function(d) {
+            return d.date;
+          })
+        ])
+        .range([
+          0, w
+        ]);
+      yScale = d3.scaleLinear()
+        .domain([
+          0, d3.max(dataset, function(d) {
+            return d.average
+          })
+        ])
+        .range([
+          h, 0
+        ]);
+      line = d3.line()
+        .defined(function(d) { return d.average >= 0 && d.average <= 350; })
+        .x(function(d) {
+          return xScale(d.date);
+        })
+        .y(function(d) {
+          return yScale(d.average);
+        });
+      dangerLine = d3.line()
+        .defined(function(d) { return d.average > 350; })
+        .x(function(d) {
+          return xScale(d.date);
+        })
+        .y(function(d) {
+          return yScale(d.average);
+        });
+      let svg = d3.select('body')
+        .append('svg')
+        .attr('width', w)
+        .attr('height', h);
+      svg.append('path')
+        .datum(dataset)
+        .attr('class', 'line')
+        .attr('d', line);
+      svg.append('path')
+        .datum(dataset)
+        .attr('class', 'dangerLine')
+        .attr('d', dangerLine);
+
+      // console.table(dataset, ["date", "average"]);
+    });
+  
+  }
+
   // usingYourData();
   // settingStyles();
   // randomData();
   // dataDrivenShapes();
   // newBarChart();
   // basicInteraction();
-  removeBars();
+  // removeBars();
+  basicLineChart();
 
 })();
